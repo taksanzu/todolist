@@ -5,18 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TodoList extends Model
+class Priority extends Model
 {
     use HasFactory;
-
+    protected $table = 'priority';
     protected $fillable = [
-        'title',
-        'description',
-        'priority',
-        'status'
+        'name'
     ];
-    public function priority()
+
+    public function todoLists()
     {
-        return $this->belongsTo(Priority::class);
+        return $this->hasMany(TodoList::class);
     }
 }

@@ -11,6 +11,34 @@
                 </div>
                 <div class="row justify-content-between text-white p-2">
                     <div class="form-group flex-fill mb-2">
+                        <form method="get" action="{{ route('todolists.index') }}">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="search" placeholder="Search...">
+                                <button type="submit" class="btn btn-outline-primary">Search</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form-group flex-fill mb-2">
+                        <form method="get" action="{{ route('todolists.index') }}">
+                            <div class="input-group">
+                                <select class="form-select @error('priority') is-invalid @enderror" id="priority"
+                                        name="priority">
+                                    <option
+                                        value="" {{ old('priority', isset($todoList) ? $todoList->priority : '') == '' ? 'selected' : '' }}>
+                                        All Priorities
+                                    </option>
+                                    @foreach(['low', 'medium', 'high'] as $value)
+                                        <option
+                                            value="{{ $value }}" {{ old('priority', isset($todoList) ? $todoList->priority : '') == $value ? 'selected' : '' }}>
+                                            {{ ucfirst($value) }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <button type="submit" class="btn btn-outline-primary">Filter</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form-group flex-fill mb-2">
                         <table class="table">
                             <thead>
                             <tr>
@@ -27,14 +55,7 @@
                                     <td>{{ $todoList->title }}</td>
                                     <td>{{ $todoList->description ?? 'N/A' }}</td>
                                     <td>
-                                            <span class="badge
-                                                @if($todoList->priority == 'low') text-bg-success
-                                                @elseif($todoList->priority == 'medium') text-bg-warning
-                                                @elseif($todoList->priority == 'high') text-bg-danger
-                                                @endif
-                                            ">
-                                                {{ ucfirst($todoList->priority) }}
-                                            </span>
+
                                     </td>
                                     <td>
                                             <span class="badge
@@ -47,13 +68,18 @@
                                     </td>
                                     <td>
                                     <td>
-                                        <a type="button" class="btn btn-primary mb-2 ml-2" href="{{ route('todolists.edit',['id' => $todoList->id]) }}">Edit</a>
+                                        <a type="button" class="btn btn-primary mb-2 ml-2"
+                                           href="{{ route('todolists.edit',['id' => $todoList->id]) }}">Edit</a>
 
                                         <!-- Sử dụng method POST và xác nhận xóa trước khi thực hiện -->
-                                        <form action="{{ route('todolists.destroy', ['id' =>$todoList->id]) }}" method="post" style="display:inline;">
+                                        <form action="{{ route('todolists.destroy', ['id' =>$todoList->id]) }}"
+                                              method="post" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger mb-2 ml-2" onclick="return confirm('Are you sure you want to delete this item?')">Delete</button>
+                                            <button type="submit" class="btn btn-danger mb-2 ml-2"
+                                                    onclick="return confirm('Are you sure you want to delete this item?')">
+                                                Delete
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>
@@ -69,3 +95,4 @@
         </div>
     </div>
 @endsection
+

@@ -9,7 +9,7 @@ class RegistrationController extends Controller
 {
     public function create()
     {
-        return view('register.create');
+        return view('auth.create');
     }
 
     public function store(Request $request)

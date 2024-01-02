@@ -1,4 +1,4 @@
-<!-- resources/views/register/create.blade.php -->
+<!-- resources/views/register/modal.blade.php -->
 @extends('layouts.layout')
 
 @section('content')

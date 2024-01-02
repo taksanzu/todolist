@@ -13,6 +13,9 @@
                     <a class="nav-link" href="{{route('todolists.index')}}">To do</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{route('priority.index')}}">Priority</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{ route('logout') }}">Logout</a>
                 </li>
             </ul>

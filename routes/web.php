@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticatedSessionController;
+use App\Http\Controllers\PriorityController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\TodoListController;
 use App\Http\Controllers\UserhomeController;
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('home');
+    return view('pages.welcome.home');
 });
 
 Route::get('/register', [RegistrationController::class, 'create'])->name('register.create');
@@ -40,4 +41,12 @@ Route::get('/todolists/edit', [TodoListController::class, 'edit'])->name('todoli
 Route::put('/todolists', [TodoListController::class, 'update'])->name('todolists.update');
 
 Route::delete('/todolists', [TodoListController::class, 'destroy'])->name('todolists.destroy');
+
+Route::get('/priority', [PriorityController::class, 'index'])->name('priority.index');
+
+Route::get('/priority/{id}', [PriorityController::class, 'getPriority'])->name('priority.getPriority');
+
+Route::delete('/priority/{id}', [PriorityController::class, 'destroy'])->name('priority.destroy');
+
+Route::post('/priority', [PriorityController::class, 'store'])->name('priority.store');
 

@@ -7,16 +7,32 @@ use Illuminate\Http\Request;
 
 class TodoListController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $todoLists = auth()->user()->todoLists()->get();
-        return view('todolists.index', compact('todoLists'));
+        $search = $request->input('search');
+        $todoLists = auth()->user()->todoLists();
+
+        if ($search) {
+            $todoLists->where(function ($query) use ($search) {
+                $query->where('title', 'LIKE', "%$search%")
+                    ->orWhere('description', 'LIKE', "%$search%");
+            });
+        }
+        $priority = $request->input('priority');
+
+        if ($priority) {
+            $todoLists->where(function ($query) use ($priority) {
+                $query->where('priority', 'LIKE', "%$priority%");
+            });
+        }
+        $todoLists = $todoLists->get();
+        return view('pages.todolists.index', compact('todoLists'));
     }
 
     public function create()
     {
         $todolist = new TodoList();
-        return view('todolists.create', compact('todolist'));
+        return view('pages.todolists.create', compact('todolist'));
     }
 
     public function store(Request $request)
@@ -42,7 +58,7 @@ class TodoListController extends Controller
     {
         // Kiểm tra quyền hạn trước khi cho phép chỉnh sửa
         $todoList = TodoList::findOrFail($request->id);
-        return view('todolists.create', compact('todoList'));
+        return view('pages.todolists.create', compact('todoList'));
     }
 
     public function update(Request $request)
